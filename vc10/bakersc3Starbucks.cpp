@@ -1,6 +1,6 @@
 #include "bakersc3Starbucks.h"
 
-void bakersc3Starbucks::build(Entry* c, int n){
+void bakersc3StarbucksAA::build(Entry* c, int n){
 	int m = n;
 	Entry* arr = new Entry[m];
 	for(int i = 0; i < n; i++){
@@ -45,7 +45,7 @@ void bakersc3Starbucks::build(Entry* c, int n){
 	return root;
 }*/
 
-Entry* bakersc3Starbucks::getNearest(double x, double y){
+Entry* bakersc3StarbucksAA::getNearest(double x, double y){
 	return nearest(x, y, arr, this->num);
 }
 

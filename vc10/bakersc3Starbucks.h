@@ -1,6 +1,6 @@
 #include "Starbucks.h"
 
-class bakersc3Starbucks : public Starbucks {
+class bakersc3StarbucksAA : public Starbucks {
 public:
 	virtual void build(Entry* c, int n);
     virtual Entry* getNearest(double x, double y);

@@ -1,5 +1,7 @@
 #include "cinder/app/AppBasic.h"
 #include "cinder/gl/gl.h"
+#include "cinder/gl/Texture.h"
+#include "cinder/ImageIo.h"
 #include "bakersc3Starbucks.h"
 #include <iostream>
 #include <fstream>
@@ -16,18 +18,38 @@ class bakersc3Starbucks : public AppBasic {
 	void update();
 	void draw();
     Entry* createArray();
-	//bakersc3Starbucks* test;
+
+	void prepareSettings(Settings* settings);
+
+  private:
+	bool clicked;
+	Vec2i mousePos;
+	Surface* mySurface;
+	uint8_t* dataArray;
+	gl::Texture* texture;
+	bakersc3Starbucks* test;
+
+	static const int appWidth = 800;
+	static const int appHeight = 600;
+	static const int textureSize = 1024;
 };
 
-void bakersc3Starbucks::setup()
-{
+//The lovely prepareSettings method.
+void bakersc3Starbucks::prepareSettings(Settings* settings){
+	(*settings).setWindowSize(appWidth, appHeight);
+	(*settings).setResizable(false);
+}
+
+void bakersc3Starbucks::setup(){
+	//The surface!
+	mySurface = new Surface(textureSize, textureSize, false);
+	texture = new gl::Texture(*mySurface);
+
+	//Array initialization.
 	count = 0;
     Entry* arr = createArray();
     int n = count;
-
-	/*test = new bakersc3Starbucks;
-	test->num = n;
-    Entry* face = test->getNearest(.5, .5);*/
+	test = new bakersc3Starbucks;
 }
 
 Entry* bakersc3Starbucks::createArray(){
@@ -67,18 +89,23 @@ Entry* bakersc3Starbucks::createArray(){
     return stores;
 }
 
-void bakersc3Starbucks::mouseDown( MouseEvent event )
-{
+void bakersc3Starbucks::mouseDown( MouseEvent event ){
+	clicked = true;
+	if(event.isLeft()){
+		int x = mousePos.x;
+		int y = mousePos.y;
+		//test->getNearest(x, y);
+		console() << "clicked!" <<endl;
+	}
 }
 
-void bakersc3Starbucks::update()
-{
+void bakersc3Starbucks::update(){
+	(*texture).update(*mySurface, (*mySurface).getBounds());
 }
 
-void bakersc3Starbucks::draw()
-{
-	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) ); 
+void bakersc3Starbucks::draw(){
+	//gl::color(Color(.1f, .8f, .6f));
+	gl::draw(*texture);
 }
 
 CINDER_APP_BASIC( bakersc3Starbucks, RendererGl )
