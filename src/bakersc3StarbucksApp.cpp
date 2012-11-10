@@ -16,6 +16,7 @@ class bakersc3Starbucks : public AppBasic {
 	void update();
 	void draw();
     Entry* createArray();
+	//bakersc3Starbucks* test;
 };
 
 void bakersc3Starbucks::setup()
@@ -23,8 +24,10 @@ void bakersc3Starbucks::setup()
 	count = 0;
     Entry* arr = createArray();
     int n = count;
-    // call build 
-	// call getNearest
+
+	/*test = new bakersc3Starbucks;
+	test->num = n;
+    Entry* face = test->getNearest(.5, .5);*/
 }
 
 Entry* bakersc3Starbucks::createArray(){

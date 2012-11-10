@@ -1,25 +1,30 @@
 #include "bakersc3Starbucks.h"
 
 void bakersc3Starbucks::build(Entry* c, int n){
-	Entry* arr = new Entry[n];
+	int m = n;
+	Entry* arr = new Entry[m];
 	for(int i = 0; i < n; i++){
 		(arr + i)->identifier = (c + i)->identifier;
 		(arr + i)->x = (c + i)->x;
 		(arr + i)->y = (c + i)->y;
 	}
 		
-	treeBuilder(arr, n);
+	//Tree::tree = new Tree();
+	//Tree::tree->root = Tree::treeBuilder(arr, m);
 }
 
 //I keep getting unresolved external errors on this method, and I'm
 // not really certain why. I left the code here to see if I could get 
 // any feedback on it, because I feel like it's really close to working.
-Node* treeBuilder(Entry* arr, int n){
+/*Node* Tree::treeBuilder(Entry* arr, int n){
 	Node* root = new Node();
+
+	//catch potential errors and easy cases
 	if(n == 0 || arr == NULL)
 		return NULL;
 	if(n == 1)
 		return &Node(arr + 1);
+
 	else if ((n % 2) == 0){
 		for(int i = 0; i < n; i++){
 			Node* node = new Node(arr + i);
@@ -38,10 +43,10 @@ Node* treeBuilder(Entry* arr, int n){
 	treeBuilder(root->right->data, (n-1)/2);
 
 	return root;
-}
+}*/
 
 Entry* bakersc3Starbucks::getNearest(double x, double y){
-	return nearest(x, y, arr, n);
+	return nearest(x, y, arr, this->num);
 }
 
 //The brute force version to find the nearest neighbor, since
@@ -49,9 +54,10 @@ Entry* bakersc3Starbucks::getNearest(double x, double y){
 Entry* nearest(double x, double y, Entry* arr, int n){
 	Entry* near = (arr + 1);
 	for(int i = 0; i < n; i++){
-		if(((arr+i)->x - x)*((arr+i)->x - x) + ((arr+i)->y - y)*((arr+i)->y - y) <
-			(near->x - x)*(near->x - x) + (near->y - y)*(near->y - y))
+		if((((arr+i)->x - x)*((arr+i)->x - x) + ((arr+i)->y - y)*((arr+i)->y - y)) <
+			((near->x - x)*(near->x - x) + (near->y - y)*(near->y - y))){
 			near = (arr + i);
+		}
 	}
 	return near;
 }
