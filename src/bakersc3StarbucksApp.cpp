@@ -3,6 +3,7 @@
 #include "cinder/gl/Texture.h"
 #include "cinder/ImageIo.h"
 #include "bakersc3Starbucks.h"
+#include "Resources.h"
 #include <iostream>
 #include <fstream>
 
@@ -27,7 +28,8 @@ class bakersc3Starbucks : public AppBasic {
 	Surface* mySurface;
 	uint8_t* dataArray;
 	gl::Texture* texture;
-	bakersc3Starbucks* test;
+	gl::Texture* image;
+	bakersc3Starbucks* panda;
 
 	static const int appWidth = 800;
 	static const int appHeight = 600;
@@ -44,12 +46,13 @@ void bakersc3Starbucks::setup(){
 	//The surface!
 	mySurface = new Surface(textureSize, textureSize, false);
 	texture = new gl::Texture(*mySurface);
+	image = new gl::Texture(loadImage(loadResource(RES_IMAGE)));
 
 	//Array initialization.
 	count = 0;
     Entry* arr = createArray();
     int n = count;
-	test = new bakersc3Starbucks;
+	panda = new bakersc3Starbucks;
 }
 
 Entry* bakersc3Starbucks::createArray(){
@@ -92,20 +95,24 @@ Entry* bakersc3Starbucks::createArray(){
 void bakersc3Starbucks::mouseDown( MouseEvent event ){
 	clicked = true;
 	if(event.isLeft()){
-		int x = mousePos.x;
-		int y = mousePos.y;
-		//test->getNearest(x, y);
+		double x = mousePos.x;
+		double y = mousePos.y;
+		//panda->getNearest(x, y);
 		console() << "clicked!" <<endl;
 	}
 }
 
 void bakersc3Starbucks::update(){
-	(*texture).update(*mySurface, (*mySurface).getBounds());
+	(*texture).update(*mySurface, mySurface->getBounds());
+	
 }
 
 void bakersc3Starbucks::draw(){
 	//gl::color(Color(.1f, .8f, .6f));
 	gl::draw(*texture);
+	int xoffset = (getWindowWidth()-320)/2;
+	int yoffset = (getWindowHeight()-240)/2;
+	gl::draw(*image, getWindowBounds());
 }
 
 CINDER_APP_BASIC( bakersc3Starbucks, RendererGl )
